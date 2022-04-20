@@ -9,6 +9,7 @@ import walletSymbol from "../../assets/img/symbols/wallet.svg";
 import Spacer from "../Spacer";
 import AddressBalance from "../AddressBalance";
 import InputError from "../InputError";
+import { fns } from "fns-helper";
 
 const InputAddress: React.FC<any> = ({
   token,
@@ -33,6 +34,13 @@ const InputAddress: React.FC<any> = ({
     setValidAddress(null);
     setReceiverAddress(null);
     setValue(value);
+    fns.functions.isOwnedByMapping(value).then(res => {
+      if (res[0]) {
+        fns.functions.getOwnerOfName(value).then(ress => {
+          setValue(ress[0]);
+        });
+      }
+    });
     if ((value.length === 42 && !isValidAddress(value)) || value.length > 42) {
       return setError("Invalid address");
     }
