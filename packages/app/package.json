@@ -58,6 +58,7 @@
     "ethereumjs-common": "^1.5.2",
     "ethereumjs-tx": "^2.1.2",
     "ethereumjs-util": "7.0.3",
+    "fns-helper": ">=1.0.2",
     "graphql": "^15.5.0",
     "http-proxy-middleware": "^2.0.1",
     "i18next": "^20.2.2",
