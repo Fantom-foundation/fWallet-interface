@@ -46,7 +46,6 @@ const InputAddress: React.FC<any> = ({
     setReceiverAddress(null);
     setValue(value);
     let isOwned;
-    // prettier-ignore
     contract.functions.isOwnedByMapping(value.toUpperCase()).then(res => {
       if (res[0]) {
         isOwned = true;
