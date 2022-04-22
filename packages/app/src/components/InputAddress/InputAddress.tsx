@@ -45,18 +45,18 @@ const InputAddress: React.FC<any> = ({
     setValidAddress(null);
     setReceiverAddress(null);
     setValue(value);
-    let isOwned;
+    let owned = false;
     contract.functions.isOwnedByMapping(value.toUpperCase()).then(res => {
       if (res[0]) {
-        isOwned = true;
+        owned = true;
         contract.functions.getOwnerOfName(value.toUpperCase()).then(result => {
           setValue(result[0]);
         });
-      } else {
-        isOwned = false;
       }
     });
-    if (((value.length === 42 && !isValidAddress(value)) || value.length > 42) && !isOwned) {
+    console.log("owned:");
+    console.log(owned);
+    if (((value.length === 42 && !isValidAddress(value)) || value.length > 42) && !owned) {
       return setError("Invalid address");
     }
     if (
