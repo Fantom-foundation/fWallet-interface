@@ -46,7 +46,7 @@ const InputAddress: React.FC<any> = ({
     setReceiverAddress(null);
     setValue(value);
     let owned = false;
-    if (value.length > 0) {
+    if ((value.length > 0) && (value.length < 42)) {
       contract.functions.isOwnedByMapping(value.toUpperCase()).then(res => {
         if (res[0]) {
           owned = true;
