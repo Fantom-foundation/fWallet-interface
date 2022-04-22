@@ -56,7 +56,7 @@ const InputAddress: React.FC<any> = ({
         }
       });
     }
-    console.log("owned:");
+    console.log(`${value} owned:`);
     console.log(owned);
     if (((value.length === 42 && !isValidAddress(value)) || value.length > 42) && !owned) {
       return setError("Invalid address");
