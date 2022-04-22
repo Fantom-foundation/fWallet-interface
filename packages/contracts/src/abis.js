@@ -10,6 +10,7 @@ import govProposal from "./abis/fantom/gov-proposal.json";
 import govProposalPlaintext from "./abis/fantom/gov-proposal-plaintext.json";
 import bridgeRouter from "./abis/multichain/bridgeRouter.json";
 import bridge from "./abis/multichain/bridge.json";
+import rave from "./abis/rave.json";
 
 export default {
   erc20,
@@ -24,4 +25,5 @@ export default {
   govProposalPlaintext,
   bridgeRouter,
   bridge,
+  rave,
 };
