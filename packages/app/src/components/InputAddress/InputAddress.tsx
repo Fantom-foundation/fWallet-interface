@@ -50,23 +50,33 @@ const InputAddress: React.FC<any> = ({
         if (res[0]) {
           contract.functions.getOwnerOfName(value.toUpperCase()).then(result => {
             setValue(result[0]);
+            if (
+              result[0] === 42 &&
+              isSameAddress(result[0], walletContext.activeWallet.address)
+            ) {
+              return setError("Receiver address is same as sender address");
+            }
+            if (result[0] === 42 && isValidAddress(result[0])) {
+              setValidAddress(result[0]);
+              setReceiverAddress(result[0]);
+            }
           });
         } else {
           if ((value.length === 42 && !isValidAddress(value)) || value.length > 42) {
             return setError("Invalid address");
           }
+          if (
+            value.length === 42 &&
+            isSameAddress(value, walletContext.activeWallet.address)
+          ) {
+            return setError("Receiver address is same as sender address");
+          }
+          if (value.length === 42 && isValidAddress(value)) {
+            setValidAddress(value);
+            setReceiverAddress(value);
+          }
         }
       });
-    }
-    if (
-      value.length === 42 &&
-      isSameAddress(value, walletContext.activeWallet.address)
-    ) {
-      return setError("Receiver address is same as sender address");
-    }
-    if (value.length === 42 && isValidAddress(value)) {
-      setValidAddress(value);
-      setReceiverAddress(value);
     }
   };
 
