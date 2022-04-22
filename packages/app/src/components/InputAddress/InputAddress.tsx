@@ -9,7 +9,18 @@ import walletSymbol from "../../assets/img/symbols/wallet.svg";
 import Spacer from "../Spacer";
 import AddressBalance from "../AddressBalance";
 import InputError from "../InputError";
-import { fns } from "fns-helper";
+import { Contract } from "@ethersproject/contracts";
+import { JsonRpcProvider } from "@ethersproject/providers";
+// @ts-ignore
+import { addresses } from "@f-wallet/contracts";
+// @ts-ignore
+import { abis } from "@f-wallet/contracts";
+
+const contract = new Contract(
+  addresses[250]["rave"],
+  abis.rave,
+  new JsonRpcProvider("https://rpc.ftm.tools")
+);
 
 const InputAddress: React.FC<any> = ({
   token,
@@ -29,15 +40,16 @@ const InputAddress: React.FC<any> = ({
       setError("Invalid address");
     }
   };
-  const onHandleChange = (value: string) => {
+  const onHandleChange = async (value: string) => {
     setError(null);
     setValidAddress(null);
     setReceiverAddress(null);
     setValue(value);
-    fns.functions.isOwnedByMapping(value).then(res => {
+    // prettier-ignore
+    contract.functions.isOwnedByMapping(value.toUpperCase()).then(res => {
       if (res[0]) {
-        fns.functions.getOwnerOfName(value).then(ress => {
-          setValue(ress[0]);
+        contract.functions.getOwnerOfName(value.toUpperCase()).then(result => {
+          setValue(result[0]);
         });
       }
     });
