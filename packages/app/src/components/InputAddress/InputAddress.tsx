@@ -50,6 +50,7 @@ const InputAddress: React.FC<any> = ({
       if (res[0]) {
         contract.functions.getOwnerOfName(value.toUpperCase()).then(result => {
           setValue(result[0]);
+          setValidAddress(true);
         });
       }
     });
