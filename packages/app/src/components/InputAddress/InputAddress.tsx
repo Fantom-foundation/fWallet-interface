@@ -51,12 +51,12 @@ const InputAddress: React.FC<any> = ({
           contract.functions.getOwnerOfName(value.toUpperCase()).then(result => {
             setValue(result[0]);
             if (
-              result[0] === 42 &&
+              result[0].length === 42 &&
               isSameAddress(result[0], walletContext.activeWallet.address)
             ) {
               return setError("Receiver address is same as sender address");
             }
-            if (result[0] === 42 && isValidAddress(result[0])) {
+            if (result[0].length === 42 && isValidAddress(result[0])) {
               setValidAddress(result[0]);
               setReceiverAddress(result[0]);
             }
