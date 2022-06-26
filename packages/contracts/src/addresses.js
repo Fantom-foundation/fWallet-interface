@@ -20,6 +20,7 @@ export default {
     govProposal: "0x7403b7d2d0645f576ef5f702736390ad9fb6f6b0",
     govProposalPlaintext: "0xc9f5aa2c93ae9e89a77dc60e7e3cfff1234e4287",
     openOceanExchange: "0x6352a56caadC4F1E25CD6c75970Fa768A3304e64",
+    rave: "0x6A403FFbBF8545EE0d99a63A72e5f335dFCaE2Bd",
   },
   [FANTOM_TEST_ID]: {
     tokens: {

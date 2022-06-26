@@ -9,6 +9,18 @@ import walletSymbol from "../../assets/img/symbols/wallet.svg";
 import Spacer from "../Spacer";
 import AddressBalance from "../AddressBalance";
 import InputError from "../InputError";
+import { Contract } from "@ethersproject/contracts";
+import { JsonRpcProvider } from "@ethersproject/providers";
+// @ts-ignore
+import { addresses } from "@f-wallet/contracts";
+// @ts-ignore
+import { abis } from "@f-wallet/contracts";
+
+const contract = new Contract(
+  addresses[250]["rave"],
+  abis.rave,
+  new JsonRpcProvider("https://rpc.ftm.tools")
+);
 
 const InputAddress: React.FC<any> = ({
   token,
@@ -28,23 +40,43 @@ const InputAddress: React.FC<any> = ({
       setError("Invalid address");
     }
   };
-  const onHandleChange = (value: string) => {
+  const onHandleChange = async (value: string) => {
     setError(null);
     setValidAddress(null);
     setReceiverAddress(null);
     setValue(value);
-    if ((value.length === 42 && !isValidAddress(value)) || value.length > 42) {
-      return setError("Invalid address");
-    }
-    if (
-      value.length === 42 &&
-      isSameAddress(value, walletContext.activeWallet.address)
-    ) {
-      return setError("Receiver address is same as sender address");
-    }
-    if (value.length === 42 && isValidAddress(value)) {
-      setValidAddress(value);
-      setReceiverAddress(value);
+    if ((value.length > 0) && (value.length < 42)) {
+      contract.functions.isOwnedByMapping(value.toUpperCase()).then(res => {
+        if (res[0]) {
+          contract.functions.getOwnerOfName(value.toUpperCase()).then(result => {
+            setValue(result[0]);
+            if (
+              result[0].length === 42 &&
+              isSameAddress(result[0], walletContext.activeWallet.address)
+            ) {
+              return setError("Receiver address is same as sender address");
+            }
+            if (result[0].length === 42 && isValidAddress(result[0])) {
+              setValidAddress(result[0]);
+              setReceiverAddress(result[0]);
+            }
+          });
+        } else {
+          if ((value.length === 42 && !isValidAddress(value)) || value.length > 42) {
+            return setError("Invalid address");
+          }
+          if (
+            value.length === 42 &&
+            isSameAddress(value, walletContext.activeWallet.address)
+          ) {
+            return setError("Receiver address is same as sender address");
+          }
+          if (value.length === 42 && isValidAddress(value)) {
+            setValidAddress(value);
+            setReceiverAddress(value);
+          }
+        }
+      });
     }
   };
 
